@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+IMAGE_NAME=murmur:latest
+
+docker history -q ${IMAGE_NAME} | grep -v \<missing\> | tr '\n' ' ' | xargs docker save -o ./archive/murmur.tar
+git archive HEAD --output=archive/repo.zip
+
