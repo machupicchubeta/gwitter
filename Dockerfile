@@ -20,7 +20,7 @@ COPY Gemfile.lock .
 COPY package.json .
 COPY yarn.lock .
 
-RUN bundle install
+RUN gem install bundler -v 2.1.2 && bundle update --bundler && bundle install
 RUN yarn install --check-files
 
 COPY . /myapp
