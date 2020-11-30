@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  web:
+    image: murmur
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -b 0.0.0.0"
+    volumes:
+      - .:/myapp
+      - node_modules:/myapp/node_modules
+      - bundle:/usr/local/bundle
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    env_file:
+      - ./env/development/db.env
+
+volumes:
+  bundle:
+    driver: local
+  node_modules:
+    driver: local
+  db-data:
+    driver: local
+
